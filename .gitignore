@@ -1,0 +1,33 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual envs
+.venv/
+.env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+
+# Data/model artifacts (keep .gitkeep)
+data/*
+!data/**/.gitkeep
+models/*
+!models/**/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Reports
+reports/figures/*
+!reports/figures/.gitkeep
+
+# VSCode / PyCharm
+.vscode/
+.idea/

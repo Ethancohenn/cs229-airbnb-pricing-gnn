@@ -1,0 +1,19 @@
+name: cs229-airbnb
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - jupyter
+  - pip:
+      - catboost
+      - xgboost
+      - tqdm
+      - networkx
+      - geopy

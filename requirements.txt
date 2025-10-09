@@ -1,0 +1,11 @@
+numpy
+pandas
+scikit-learn
+catboost
+xgboost
+matplotlib
+seaborn
+jupyter
+tqdm
+networkx
+geopy

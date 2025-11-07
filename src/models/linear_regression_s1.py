@@ -42,7 +42,7 @@ print(f"10-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 model.fit(X_train_enc, y_train)
 y_pred_train = model.predict(X_train_enc)
 train_mae = mean_absolute_error(y_train, y_pred_train)
-train_rmse = mean_squared_error(y_train, y_pred_train, squared=False)
+train_rmse = np.sqrt(mean_squared_error(y_train, y_pred_train))
 
 print(f"Training MAE: {train_mae:.3f}")
 print(f"Training RMSE: {train_rmse:.3f}")

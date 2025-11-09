@@ -7,8 +7,8 @@ import seaborn as sns
 from xgboost import XGBRegressor, plot_importance
 
 # 1. Load train and test data
-train_df = pd.read_csv("../data/train_s1.csv")
-test_df = pd.read_csv("../data/test_s1.csv")
+train_df = pd.read_csv("../../data/train_s1.csv")
+test_df = pd.read_csv("../../data/test_s1.csv")
 
 # 2. Split features & target
 y_train = train_df["log_price"]

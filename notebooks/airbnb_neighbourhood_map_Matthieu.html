@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_09db48f876c1f9bf80466dcbe720464a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_09db48f876c1f9bf80466dcbe720464a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_09db48f876c1f9bf80466dcbe720464a = L.map(
+                "map_09db48f876c1f9bf80466dcbe720464a",
+                {
+                    center: [40.7128, -74.006],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_7de760a22e277824f87bc674ee93056c = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_7de760a22e277824f87bc674ee93056c.addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+    var color_map_e59adc2434c801cbe03ce02c25deba91 = {};
+
+    
+    color_map_e59adc2434c801cbe03ce02c25deba91.color = d3.scale.threshold()
+              .domain([95.79545454545455, 97.77001407993592, 99.74457361441728, 101.71913314889863, 103.69369268338001, 105.66825221786138, 107.64281175234274, 109.6173712868241, 111.59193082130547, 113.56649035578684, 115.5410498902682, 117.51560942474956, 119.49016895923093, 121.4647284937123, 123.43928802819366, 125.41384756267502, 127.38840709715639, 129.36296663163776, 131.33752616611912, 133.31208570060048, 135.28664523508183, 137.26120476956322, 139.23576430404458, 141.21032383852594, 143.18488337300732, 145.15944290748868, 147.13400244197004, 149.1085619764514, 151.08312151093276, 153.05768104541414, 155.0322405798955, 157.00680011437686, 158.98135964885824, 160.95591918333957, 162.93047871782096, 164.90503825230235, 166.87959778678368, 168.85415732126506, 170.8287168557464, 172.80327639022778, 174.77783592470917, 176.7523954591905, 178.72695499367188, 180.70151452815327, 182.6760740626346, 184.65063359711598, 186.6251931315973, 188.5997526660787, 190.5743122005601, 192.54887173504142, 194.5234312695228, 196.4979908040042, 198.47255033848552, 200.4471098729669, 202.42166940744823, 204.39622894192962, 206.370788476411, 208.34534801089234, 210.31990754537372, 212.29446707985508, 214.26902661433644, 216.24358614881783, 218.21814568329916, 220.19270521778054, 222.16726475226193, 224.14182428674326, 226.11638382122464, 228.09094335570603, 230.06550289018736, 232.04006242466875, 234.01462195915013, 235.98918149363146, 237.96374102811285, 239.93830056259418, 241.91286009707557, 243.8874196315569, 245.86197916603828, 247.83653870051967, 249.811098235001, 251.78565776948238, 253.76021730396377, 255.7347768384451, 257.7093363729265, 259.6838959074079, 261.6584554418892, 263.6330149763706, 265.607574510852, 267.5821340453333, 269.55669357981463, 271.531253114296, 273.5058126487774, 275.48037218325874, 277.4549317177401, 279.4294912522215, 281.40405078670284, 283.3786103211842, 285.3531698556656, 287.32772939014694, 289.30228892462833, 291.2768484591097, 293.25140799359104, 295.22596752807243, 297.2005270625538, 299.17508659703515, 301.14964613151653, 303.12420566599786, 305.09876520047925, 307.0733247349606, 309.04788426944197, 311.02244380392335, 312.9970033384047, 314.97156287288607, 316.94612240736745, 318.9206819418488, 320.89524147633017, 322.86980101081156, 324.8443605452929, 326.8189200797743, 328.7934796142556, 330.768039148737, 332.7425986832183, 334.7171582176997, 336.6917177521811, 338.6662772866624, 340.6408368211438, 342.6153963556252, 344.5899558901065, 346.5645154245879, 348.5390749590693, 350.5136344935506, 352.488194028032, 354.4627535625134, 356.4373130969947, 358.4118726314761, 360.3864321659575, 362.36099170043883, 364.3355512349202, 366.3101107694016, 368.28467030388293, 370.2592298383643, 372.2337893728457, 374.20834890732704, 376.1829084418084, 378.1574679762898, 380.13202751077114, 382.10658704525247, 384.08114657973385, 386.0557061142152, 388.03026564869657, 390.00482518317796, 391.9793847176593, 393.9539442521407, 395.928503786622, 397.9030633211034, 399.8776228555848, 401.8521823900661, 403.8267419245475, 405.8013014590289, 407.7758609935102, 409.7504205279916, 411.724980062473, 413.6995395969543, 415.6740991314357, 417.6486586659171, 419.6232182003984, 421.5977777348798, 423.5723372693612, 425.5468968038425, 427.5214563383239, 429.4960158728053, 431.4705754072866, 433.445134941768, 435.4196944762494, 437.3942540107307, 439.3688135452121, 441.3433730796935, 443.31793261417477, 445.29249214865615, 447.2670516831375, 449.24161121761887, 451.21617075210025, 453.1907302865816, 455.16528982106297, 457.13984935554436, 459.1144088900257, 461.0889684245071, 463.06352795898846, 465.0380874934698, 467.0126470279512, 468.98720656243256, 470.9617660969139, 472.9363256313953, 474.91088516587666, 476.885444700358, 478.8600042348394, 480.83456376932077, 482.8091233038021, 484.7836828382835, 486.75824237276487, 488.7328019072462, 490.7073614417276, 492.68192097620897, 494.6564805106903, 496.6310400451717, 498.6055995796531, 500.5801591141344, 502.5547186486158, 504.5292781830971, 506.5038377175785, 508.47839725205984, 510.45295678654117, 512.4275163210225, 514.4020758555039, 516.3766353899853, 518.3511949244667, 520.325754458948, 522.3003139934293, 524.2748735279107, 526.2494330623921, 528.2239925968735, 530.1985521313549, 532.1731116658362, 534.1476712003175, 536.1222307347989, 538.0967902692803, 540.0713498037617, 542.0459093382431, 544.0204688727245, 545.9950284072057, 547.9695879416871, 549.9441474761685, 551.9187070106499, 553.8932665451313, 555.8678260796127, 557.8423856140939, 559.8169451485753, 561.7915046830567, 563.7660642175381, 565.7406237520195, 567.7151832865007, 569.6897428209821, 571.6643023554635, 573.6388618899448, 575.6134214244262, 577.5879809589076, 579.562540493389, 581.5371000278703, 583.5116595623517, 585.486219096833, 587.4607786313144, 589.4353381657958, 591.4098977002772, 593.3844572347585, 595.3590167692399, 597.3335763037212, 599.3081358382026, 601.282695372684, 603.2572549071654, 605.2318144416467, 607.2063739761281, 609.1809335106094, 611.1554930450908, 613.1300525795722, 615.1046121140536, 617.0791716485348, 619.0537311830162, 621.0282907174976, 623.0028502519789, 624.9774097864604, 626.9519693209417, 628.926528855423, 630.9010883899044, 632.8756479243858, 634.8502074588671, 636.8247669933486, 638.7993265278299, 640.7738860623112, 642.7484455967926, 644.723005131274, 646.6975646657553, 648.6721242002368, 650.6466837347181, 652.6212432691995, 654.5958028036808, 656.5703623381622, 658.5449218726435, 660.519481407125, 662.4940409416063, 664.4686004760877, 666.443160010569, 668.4177195450503, 670.3922790795317, 672.3668386140131, 674.3413981484945, 676.3159576829757, 678.2905172174572, 680.2650767519385, 682.2396362864199, 684.2141958209013, 686.1887553553827, 688.163314889864, 690.1378744243455, 692.1124339588267, 694.0869934933081, 696.0615530277894, 698.0361125622709, 700.0106720967522, 701.9852316312335, 703.9597911657149, 705.9343507001963, 707.9089102346776, 709.8834697691591, 711.8580293036404, 713.8325888381218, 715.8071483726031, 717.7817079070845, 719.7562674415658, 721.7308269760473, 723.7053865105286, 725.67994604501, 727.6545055794913, 729.6290651139726, 731.603624648454, 733.5781841829354, 735.5527437174168, 737.527303251898, 739.5018627863795, 741.4764223208608, 743.4509818553422, 745.4255413898236, 747.400100924305, 749.3746604587863, 751.3492199932678, 753.323779527749, 755.2983390622304, 757.2728985967118, 759.2474581311932, 761.2220176656745, 763.196577200156, 765.1711367346372, 767.1456962691186, 769.1202558036, 771.0948153380814, 773.0693748725627, 775.0439344070442, 777.0184939415254, 778.9930534760068, 780.9676130104882, 782.9421725449696, 784.9167320794509, 786.8912916139324, 788.8658511484136, 790.8404106828949, 792.8149702173764, 794.7895297518577, 796.7640892863391, 798.7386488208203, 800.7132083553018, 802.6877678897831, 804.6623274242645, 806.6368869587459, 808.6114464932273, 810.5860060277085, 812.56056556219, 814.5351250966713, 816.5096846311527, 818.4842441656341, 820.4588037001155, 822.4333632345968, 824.4079227690783, 826.3824823035595, 828.3570418380409, 830.3316013725223, 832.3061609070037, 834.280720441485, 836.2552799759665, 838.2298395104477, 840.2043990449291, 842.1789585794105, 844.1535181138919, 846.1280776483732, 848.1026371828547, 850.0771967173359, 852.0517562518173, 854.0263157862987, 856.00087532078, 857.9754348552614, 859.9499943897428, 861.9245539242241, 863.8991134587054, 865.8736729931869, 867.8482325276682, 869.8227920621496, 871.797351596631, 873.7719111311123, 875.7464706655936, 877.7210302000751, 879.6955897345564, 881.6701492690378, 883.6447088035192, 885.6192683380006, 887.5938278724818, 889.5683874069633, 891.5429469414446, 893.517506475926, 895.4920660104074, 897.4666255448888, 899.44118507937, 901.4157446138515, 903.3903041483328, 905.3648636828142, 907.3394232172955, 909.313982751777, 911.2885422862582, 913.2631018207396, 915.237661355221, 917.2122208897024, 919.1867804241837, 921.161339958665, 923.1358994931464, 925.1104590276277, 927.0850185621092, 929.0595780965905, 931.0341376310719, 933.0086971655533, 934.9832567000346, 936.9578162345159, 938.9323757689974, 940.9069353034787, 942.8814948379601, 944.8560543724415, 946.8306139069228, 948.8051734414041, 950.7797329758856, 952.7542925103669, 954.7288520448483, 956.7034115793297, 958.677971113811, 960.6525306482923, 962.6270901827738, 964.6016497172551, 966.5762092517365, 968.5507687862179, 970.5253283206993, 972.4998878551805, 974.474447389662, 976.4490069241433, 978.4235664586247, 980.3981259931061, 982.3726855275874, 984.3472450620687, 986.3218045965501, 988.2963641310315, 990.2709236655128, 992.2454831999943, 994.2200427344756, 996.1946022689569, 998.1691618034383, 1000.1437213379197, 1002.118280872401, 1004.0928404068825, 1006.0673999413638, 1008.0419594758451, 1010.0165190103265, 1011.9910785448079, 1013.9656380792892, 1015.9401976137707, 1017.914757148252, 1019.8893166827334, 1021.8638762172146, 1023.8384357516961, 1025.8129952861775, 1027.787554820659, 1029.7621143551403, 1031.7366738896217, 1033.7112334241028, 1035.6857929585844, 1037.6603524930656, 1039.634912027547, 1041.6094715620284, 1043.5840310965098, 1045.5585906309911, 1047.5331501654725, 1049.507709699954, 1051.482269234435, 1053.4568287689167, 1055.4313883033979, 1057.4059478378792, 1059.3805073723606, 1061.355066906842, 1063.3296264413234, 1065.3041859758048, 1067.2787455102862, 1069.2533050447676, 1071.227864579249, 1073.2024241137303, 1075.1769836482115, 1077.151543182693, 1079.1261027171743, 1081.1006622516556])
+              .range(['#008000ff', '#018100ff', '#028100ff', '#038200ff', '#048200ff', '#058300ff', '#068300ff', '#078400ff', '#088400ff', '#098500ff', '#0a8500ff', '#0b8600ff', '#0c8600ff', '#0d8700ff', '#0e8700ff', '#0f8800ff', '#108800ff', '#118900ff', '#128900ff', '#138a00ff', '#148a00ff', '#158b00ff', '#168b00ff', '#178c00ff', '#188c00ff', '#198d00ff', '#1a8d00ff', '#1b8e00ff', '#1c8e00ff', '#1d8f00ff', '#1e8f00ff', '#1f9000ff', '#209000ff', '#219100ff', '#229100ff', '#239200ff', '#249200ff', '#259300ff', '#269300ff', '#289400ff', '#299400ff', '#2a9500ff', '#2b9500ff', '#2c9600ff', '#2d9600ff', '#2e9700ff', '#2f9800ff', '#309800ff', '#319900ff', '#329900ff', '#339a00ff', '#349a00ff', '#359b00ff', '#369b00ff', '#379c00ff', '#389c00ff', '#399d00ff', '#3a9d00ff', '#3b9e00ff', '#3c9e00ff', '#3d9f00ff', '#3e9f00ff', '#3fa000ff', '#40a000ff', '#41a100ff', '#42a100ff', '#43a200ff', '#44a200ff', '#45a300ff', '#46a300ff', '#47a400ff', '#48a400ff', '#49a500ff', '#4aa500ff', '#4ba600ff', '#4ca600ff', '#4da700ff', '#4fa700ff', '#50a800ff', '#51a800ff', '#52a900ff', '#53a900ff', '#54aa00ff', '#55aa00ff', '#56ab00ff', '#57ab00ff', '#58ac00ff', '#59ac00ff', '#5aad00ff', '#5bad00ff', '#5cae00ff', '#5daf00ff', '#5eaf00ff', '#5fb000ff', '#60b000ff', '#61b100ff', '#62b100ff', '#63b200ff', '#64b200ff', '#65b300ff', '#66b300ff', '#67b400ff', '#68b400ff', '#69b500ff', '#6ab500ff', '#6bb600ff', '#6cb600ff', '#6db700ff', '#6eb700ff', '#6fb800ff', '#70b800ff', '#71b900ff', '#72b900ff', '#73ba00ff', '#74ba00ff', '#75bb00ff', '#77bb00ff', '#78bc00ff', '#79bc00ff', '#7abd00ff', '#7bbd00ff', '#7cbe00ff', '#7dbe00ff', '#7ebf00ff', '#7fbf00ff', '#80c000ff', '#81c000ff', '#82c100ff', '#83c100ff', '#84c200ff', '#85c200ff', '#86c300ff', '#87c300ff', '#88c400ff', '#89c400ff', '#8ac500ff', '#8bc500ff', '#8cc600ff', '#8dc700ff', '#8ec700ff', '#8fc800ff', '#90c800ff', '#91c900ff', '#92c900ff', '#93ca00ff', '#94ca00ff', '#95cb00ff', '#96cb00ff', '#97cc00ff', '#98cc00ff', '#99cd00ff', '#9acd00ff', '#9bce00ff', '#9cce00ff', '#9ecf00ff', '#9fcf00ff', '#a0d000ff', '#a1d000ff', '#a2d100ff', '#a3d100ff', '#a4d200ff', '#a5d200ff', '#a6d300ff', '#a7d300ff', '#a8d400ff', '#a9d400ff', '#aad500ff', '#abd500ff', '#acd600ff', '#add600ff', '#aed700ff', '#afd700ff', '#b0d800ff', '#b1d800ff', '#b2d900ff', '#b3d900ff', '#b4da00ff', '#b5da00ff', '#b6db00ff', '#b7db00ff', '#b8dc00ff', '#b9dc00ff', '#badd00ff', '#bbde00ff', '#bcde00ff', '#bddf00ff', '#bedf00ff', '#bfe000ff', '#c0e000ff', '#c1e100ff', '#c2e100ff', '#c3e200ff', '#c5e200ff', '#c6e300ff', '#c7e300ff', '#c8e400ff', '#c9e400ff', '#cae500ff', '#cbe500ff', '#cce600ff', '#cde600ff', '#cee700ff', '#cfe700ff', '#d0e800ff', '#d1e800ff', '#d2e900ff', '#d3e900ff', '#d4ea00ff', '#d5ea00ff', '#d6eb00ff', '#d7eb00ff', '#d8ec00ff', '#d9ec00ff', '#daed00ff', '#dbed00ff', '#dcee00ff', '#ddee00ff', '#deef00ff', '#dfef00ff', '#e0f000ff', '#e1f000ff', '#e2f100ff', '#e3f100ff', '#e4f200ff', '#e5f200ff', '#e6f300ff', '#e7f300ff', '#e8f400ff', '#e9f500ff', '#eaf500ff', '#ebf600ff', '#edf600ff', '#eef700ff', '#eff700ff', '#f0f800ff', '#f1f800ff', '#f2f900ff', '#f3f900ff', '#f4fa00ff', '#f5fa00ff', '#f6fb00ff', '#f7fb00ff', '#f8fc00ff', '#f9fc00ff', '#fafd00ff', '#fbfd00ff', '#fcfe00ff', '#fdfe00ff', '#feff00ff', '#ffff00ff', '#ffff00ff', '#fffe00ff', '#fffd00ff', '#fffc00ff', '#fffb00ff', '#fffa00ff', '#fff900ff', '#fff800ff', '#fff700ff', '#fff600ff', '#fff500ff', '#fff400ff', '#fff300ff', '#fff200ff', '#fff100ff', '#fff000ff', '#ffef00ff', '#ffee00ff', '#ffed00ff', '#ffeb00ff', '#ffea00ff', '#ffe900ff', '#ffe800ff', '#ffe700ff', '#ffe600ff', '#ffe500ff', '#ffe400ff', '#ffe300ff', '#ffe200ff', '#ffe100ff', '#ffe000ff', '#ffdf00ff', '#ffde00ff', '#ffdd00ff', '#ffdc00ff', '#ffdb00ff', '#ffda00ff', '#ffd900ff', '#ffd800ff', '#ffd700ff', '#ffd600ff', '#ffd500ff', '#ffd400ff', '#ffd300ff', '#ffd200ff', '#ffd100ff', '#ffd000ff', '#ffcf00ff', '#ffce00ff', '#ffcd00ff', '#ffcc00ff', '#ffcb00ff', '#ffca00ff', '#ffc900ff', '#ffc800ff', '#ffc700ff', '#ffc600ff', '#ffc500ff', '#ffc300ff', '#ffc200ff', '#ffc100ff', '#ffc000ff', '#ffbf00ff', '#ffbe00ff', '#ffbd00ff', '#ffbc00ff', '#ffbb00ff', '#ffba00ff', '#ffb900ff', '#ffb800ff', '#ffb700ff', '#ffb600ff', '#ffb500ff', '#ffb400ff', '#ffb300ff', '#ffb200ff', '#ffb100ff', '#ffb000ff', '#ffaf00ff', '#ffae00ff', '#ffad00ff', '#ffac00ff', '#ffab00ff', '#ffaa00ff', '#ffa900ff', '#ffa800ff', '#ffa700ff', '#ffa600ff', '#ffa500ff', '#ffa400ff', '#ffa300ff', '#ffa200ff', '#ffa100ff', '#ffa000ff', '#ff9f00ff', '#ff9e00ff', '#ff9c00ff', '#ff9b00ff', '#ff9a00ff', '#ff9900ff', '#ff9800ff', '#ff9700ff', '#ff9600ff', '#ff9500ff', '#ff9400ff', '#ff9300ff', '#ff9200ff', '#ff9100ff', '#ff9000ff', '#ff8f00ff', '#ff8e00ff', '#ff8d00ff', '#ff8c00ff', '#ff8b00ff', '#ff8a00ff', '#ff8900ff', '#ff8800ff', '#ff8700ff', '#ff8600ff', '#ff8500ff', '#ff8400ff', '#ff8300ff', '#ff8200ff', '#ff8100ff', '#ff8000ff', '#ff7f00ff', '#ff7e00ff', '#ff7d00ff', '#ff7c00ff', '#ff7b00ff', '#ff7a00ff', '#ff7900ff', '#ff7800ff', '#ff7700ff', '#ff7500ff', '#ff7400ff', '#ff7300ff', '#ff7200ff', '#ff7100ff', '#ff7000ff', '#ff6f00ff', '#ff6e00ff', '#ff6d00ff', '#ff6c00ff', '#ff6b00ff', '#ff6a00ff', '#ff6900ff', '#ff6800ff', '#ff6700ff', '#ff6600ff', '#ff6500ff', '#ff6400ff', '#ff6300ff', '#ff6200ff', '#ff6100ff', '#ff6000ff', '#ff5f00ff', '#ff5e00ff', '#ff5d00ff', '#ff5c00ff', '#ff5b00ff', '#ff5a00ff', '#ff5900ff', '#ff5800ff', '#ff5700ff', '#ff5600ff', '#ff5500ff', '#ff5400ff', '#ff5300ff', '#ff5200ff', '#ff5100ff', '#ff5000ff', '#ff4f00ff', '#ff4d00ff', '#ff4c00ff', '#ff4b00ff', '#ff4a00ff', '#ff4900ff', '#ff4800ff', '#ff4700ff', '#ff4600ff', '#ff4500ff', '#ff4400ff', '#ff4300ff', '#ff4200ff', '#ff4100ff', '#ff4000ff', '#ff3f00ff', '#ff3e00ff', '#ff3d00ff', '#ff3c00ff', '#ff3b00ff', '#ff3a00ff', '#ff3900ff', '#ff3800ff', '#ff3700ff', '#ff3600ff', '#ff3500ff', '#ff3400ff', '#ff3300ff', '#ff3200ff', '#ff3100ff', '#ff3000ff', '#ff2f00ff', '#ff2e00ff', '#ff2d00ff', '#ff2c00ff', '#ff2b00ff', '#ff2a00ff', '#ff2900ff', '#ff2800ff', '#ff2600ff', '#ff2500ff', '#ff2400ff', '#ff2300ff', '#ff2200ff', '#ff2100ff', '#ff2000ff', '#ff1f00ff', '#ff1e00ff', '#ff1d00ff', '#ff1c00ff', '#ff1b00ff', '#ff1a00ff', '#ff1900ff', '#ff1800ff', '#ff1700ff', '#ff1600ff', '#ff1500ff', '#ff1400ff', '#ff1300ff', '#ff1200ff', '#ff1100ff', '#ff1000ff', '#ff0f00ff', '#ff0e00ff', '#ff0d00ff', '#ff0c00ff', '#ff0b00ff', '#ff0a00ff', '#ff0900ff', '#ff0800ff', '#ff0700ff', '#ff0600ff', '#ff0500ff', '#ff0400ff', '#ff0300ff', '#ff0200ff', '#ff0100ff', '#ff0000ff']);
+    
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.x = d3.scale.linear()
+              .domain([95.79545454545455, 1081.1006622516556])
+              .range([0, 450 - 50]);
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.legend = L.control({position: 'topright'});
+    color_map_e59adc2434c801cbe03ce02c25deba91.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_e59adc2434c801cbe03ce02c25deba91.legend.addTo(map_09db48f876c1f9bf80466dcbe720464a);
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.xAxis = d3.svg.axis()
+        .scale(color_map_e59adc2434c801cbe03ce02c25deba91.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([95.79545454545455, 588.4480583985551, 1081.1006622516556]);
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.g = color_map_e59adc2434c801cbe03ce02c25deba91.svg.append("g")
+        .attr("class", "key")
+        .attr("fill", "black")
+        .attr("transform", "translate(25,16)");
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.g.selectAll("rect")
+        .data(color_map_e59adc2434c801cbe03ce02c25deba91.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_e59adc2434c801cbe03ce02c25deba91.x(color_map_e59adc2434c801cbe03ce02c25deba91.color.domain()[i - 1]) : color_map_e59adc2434c801cbe03ce02c25deba91.x.range()[0],
+            x1: i < color_map_e59adc2434c801cbe03ce02c25deba91.color.domain().length ? color_map_e59adc2434c801cbe03ce02c25deba91.x(color_map_e59adc2434c801cbe03ce02c25deba91.color.domain()[i]) : color_map_e59adc2434c801cbe03ce02c25deba91.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_e59adc2434c801cbe03ce02c25deba91.g.call(color_map_e59adc2434c801cbe03ce02c25deba91.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .attr("fill", "black")
+        .text("Prix moyen ($)");
+    
+            var circle_marker_16d5906175665835184252f7bfaadea8 = L.circleMarker(
+                [37.730397242677626, -122.39209744729806],
+                {"bubblingMouseEvents": true, "color": "#0a8500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0a8500ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.206555615733702, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_c4fba4d9a8de6d0ac5c4cefc63ce9437 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9755b3fee95fe5e5a62cbcca0c0b8dad = $(`<div id="html_9755b3fee95fe5e5a62cbcca0c0b8dad" style="width: 100.0%; height: 100.0%;">Bayview<br>Prix moyen: $116.42<br>Nombre de listings: 149</div>`)[0];
+                popup_c4fba4d9a8de6d0ac5c4cefc63ce9437.setContent(html_9755b3fee95fe5e5a62cbcca0c0b8dad);
+            
+        
+
+        circle_marker_16d5906175665835184252f7bfaadea8.bindPopup(popup_c4fba4d9a8de6d0ac5c4cefc63ce9437)
+        ;
+
+        
+    
+    
+            var circle_marker_fa5b2015c81cf94ad0a42985babec8f2 = L.circleMarker(
+                [37.741733536267176, -122.4160887065359],
+                {"bubblingMouseEvents": true, "color": "#3b9e00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b9e00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 21.15549442140351, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_7d7c9a570adc28598db36578831197ef = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a946a3437d912713f4264e48546249b = $(`<div id="html_2a946a3437d912713f4264e48546249b" style="width: 100.0%; height: 100.0%;">Bernal Heights<br>Prix moyen: $210.80<br>Nombre de listings: 261</div>`)[0];
+                popup_7d7c9a570adc28598db36578831197ef.setContent(html_2a946a3437d912713f4264e48546249b);
+            
+        
+
+        circle_marker_fa5b2015c81cf94ad0a42985babec8f2.bindPopup(popup_7d7c9a570adc28598db36578831197ef)
+        ;
+
+        
+    
+    
+            var circle_marker_ab0288500c165201c6f5c88820ce2390 = L.circleMarker(
+                [37.762113319853675, -122.43476632165718],
+                {"bubblingMouseEvents": true, "color": "#6cb600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#6cb600ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 22.11724276862369, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_cf42af40684a60bf63c6dbd3be2c3e9c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_adbb6b44a504f35d1fa6e29977fcf7b8 = $(`<div id="html_adbb6b44a504f35d1fa6e29977fcf7b8" style="width: 100.0%; height: 100.0%;">Castro/Upper Market<br>Prix moyen: $304.16<br>Nombre de listings: 293</div>`)[0];
+                popup_cf42af40684a60bf63c6dbd3be2c3e9c.setContent(html_adbb6b44a504f35d1fa6e29977fcf7b8);
+            
+        
+
+        circle_marker_ab0288500c165201c6f5c88820ce2390.bindPopup(popup_cf42af40684a60bf63c6dbd3be2c3e9c)
+        ;
+
+        
+    
+    
+            var circle_marker_3e08d83bdf4e2bf23fd34b7f27a55d3d = L.circleMarker(
+                [37.79199139526307, -122.40744913052941],
+                {"bubblingMouseEvents": true, "color": "#319900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#319900ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.84523257866513, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_25fe87727fdf59591ad82039ccfcc0af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_baba7192b568de5edfe86a0cb95d09b7 = $(`<div id="html_baba7192b568de5edfe86a0cb95d09b7" style="width: 100.0%; height: 100.0%;">Chinatown<br>Prix moyen: $190.68<br>Nombre de listings: 165</div>`)[0];
+                popup_25fe87727fdf59591ad82039ccfcc0af.setContent(html_baba7192b568de5edfe86a0cb95d09b7);
+            
+        
+
+        circle_marker_3e08d83bdf4e2bf23fd34b7f27a55d3d.bindPopup(popup_25fe87727fdf59591ad82039ccfcc0af)
+        ;
+
+        
+    
+    
+            var circle_marker_1f0b2755834bc5c1c52483a1a4942bd8 = L.circleMarker(
+                [37.711462122881606, -122.44007364376735],
+                {"bubblingMouseEvents": true, "color": "#008000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#008000ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.0, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_e36f73db4874ddb9d9dccf62f9ff6a8a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4598ddd980203bfcefbf7574dec3bb2b = $(`<div id="html_4598ddd980203bfcefbf7574dec3bb2b" style="width: 100.0%; height: 100.0%;">Crocker Amazon<br>Prix moyen: $95.80<br>Nombre de listings: 49</div>`)[0];
+                popup_e36f73db4874ddb9d9dccf62f9ff6a8a.setContent(html_4598ddd980203bfcefbf7574dec3bb2b);
+            
+        
+
+        circle_marker_1f0b2755834bc5c1c52483a1a4942bd8.bindPopup(popup_e36f73db4874ddb9d9dccf62f9ff6a8a)
+        ;
+
+        
+    
+    
+            var circle_marker_cd7d9d3889abe3e89924eb1cf857a4c4 = L.circleMarker(
+                [37.741759357172235, -122.44187112327113],
+                {"bubblingMouseEvents": true, "color": "#68b400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#68b400ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.464101615137753, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_f1e2a43487e70196df24cbe587036eb6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5dc0504315f46b0934c4a752f1d79dda = $(`<div id="html_5dc0504315f46b0934c4a752f1d79dda" style="width: 100.0%; height: 100.0%;">Diamond Heights<br>Prix moyen: $297.20<br>Nombre de listings: 12</div>`)[0];
+                popup_f1e2a43487e70196df24cbe587036eb6.setContent(html_5dc0504315f46b0934c4a752f1d79dda);
+            
+        
+
+        circle_marker_cd7d9d3889abe3e89924eb1cf857a4c4.bindPopup(popup_f1e2a43487e70196df24cbe587036eb6)
+        ;
+
+        
+    
+    
+            var circle_marker_76841210ae2e4a1b670ce2b1788f8ab8 = L.circleMarker(
+                [37.786239228409706, -122.41507433231914],
+                {"bubblingMouseEvents": true, "color": "#ff0000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff0000ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 40.02855977627399, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_49d08ad710d07cb2488e11ce3b3caa44 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0b6e366a3360e84da2489c9ccfe62355 = $(`<div id="html_0b6e366a3360e84da2489c9ccfe62355" style="width: 100.0%; height: 100.0%;">Downtown/Civic Center<br>Prix moyen: $1081.10<br>Nombre de listings: 1227</div>`)[0];
+                popup_49d08ad710d07cb2488e11ce3b3caa44.setContent(html_0b6e366a3360e84da2489c9ccfe62355);
+            
+        
+
+        circle_marker_76841210ae2e4a1b670ce2b1788f8ab8.bindPopup(popup_49d08ad710d07cb2488e11ce3b3caa44)
+        ;
+
+        
+    
+    
+            var circle_marker_7ebbffe131aba0eeed44548b2c0191c0 = L.circleMarker(
+                [37.72458278821883, -122.42121109362208],
+                {"bubblingMouseEvents": true, "color": "#0a8500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0a8500ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.688577540449522, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_12738baaa6957da99ef3f69cd4865cf9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_da2840a730af2ba21501044361b5ccff = $(`<div id="html_da2840a730af2ba21501044361b5ccff" style="width: 100.0%; height: 100.0%;">Excelsior<br>Prix moyen: $115.61<br>Nombre de listings: 161</div>`)[0];
+                popup_12738baaa6957da99ef3f69cd4865cf9.setContent(html_da2840a730af2ba21501044361b5ccff);
+            
+        
+
+        circle_marker_7ebbffe131aba0eeed44548b2c0191c0.bindPopup(popup_12738baaa6957da99ef3f69cd4865cf9)
+        ;
+
+        
+    
+    
+            var circle_marker_d5dbd119a82fed979353dfad04cdf2b5 = L.circleMarker(
+                [37.79036140970655, -122.40090544218224],
+                {"bubblingMouseEvents": true, "color": "#94ca00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#94ca00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 22.146428199482248, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_a43e8d3cc51aa1e0af322219cd2dca43 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8c7afeefaab69fa71b6801e7c4ddefe7 = $(`<div id="html_8c7afeefaab69fa71b6801e7c4ddefe7" style="width: 100.0%; height: 100.0%;">Financial District<br>Prix moyen: $381.44<br>Nombre de listings: 294</div>`)[0];
+                popup_a43e8d3cc51aa1e0af322219cd2dca43.setContent(html_8c7afeefaab69fa71b6801e7c4ddefe7);
+            
+        
+
+        circle_marker_d5dbd119a82fed979353dfad04cdf2b5.bindPopup(popup_a43e8d3cc51aa1e0af322219cd2dca43)
+        ;
+
+        
+    
+    
+            var circle_marker_82cedbc029048567d079ce3cc9d5b4f7 = L.circleMarker(
+                [37.73787632209537, -122.43080120140537],
+                {"bubblingMouseEvents": true, "color": "#379c00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#379c00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.855654600401044, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_75e35625ce50d3b3aacc865e2c4d8afc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_72b46dd3e9ad920af61f9f6a1a426227 = $(`<div id="html_72b46dd3e9ad920af61f9f6a1a426227" style="width: 100.0%; height: 100.0%;">Glen Park<br>Prix moyen: $203.13<br>Nombre de listings: 47</div>`)[0];
+                popup_75e35625ce50d3b3aacc865e2c4d8afc.setContent(html_72b46dd3e9ad920af61f9f6a1a426227);
+            
+        
+
+        circle_marker_82cedbc029048567d079ce3cc9d5b4f7.bindPopup(popup_75e35625ce50d3b3aacc865e2c4d8afc)
+        ;
+
+        
+    
+    
+            var circle_marker_42a7ba26bf3fe9108f3dc42ab57d8444 = L.circleMarker(
+                [37.77121666666667, -122.46600333333333],
+                {"bubblingMouseEvents": true, "color": "#0f8800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0f8800ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.732050807568877, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_31b22e3758c6fb4ecb74b55be98e353f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b1f4df3679625de343f21d85d908af4f = $(`<div id="html_b1f4df3679625de343f21d85d908af4f" style="width: 100.0%; height: 100.0%;">Golden Gate Park<br>Prix moyen: $125.00<br>Nombre de listings: 3</div>`)[0];
+                popup_31b22e3758c6fb4ecb74b55be98e353f.setContent(html_b1f4df3679625de343f21d85d908af4f);
+            
+        
+
+        circle_marker_42a7ba26bf3fe9108f3dc42ab57d8444.bindPopup(popup_31b22e3758c6fb4ecb74b55be98e353f)
+        ;
+
+        
+    
+    
+            var circle_marker_0038dd592f1046c985c693f8792af3af = L.circleMarker(
+                [37.76948725118547, -122.44646720489004],
+                {"bubblingMouseEvents": true, "color": "#64b200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#64b200ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 21.06237840420901, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_789d0cae95cb7d83939cfab5fa153468 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_eb82f52072736ffcd75de11d1bdea162 = $(`<div id="html_eb82f52072736ffcd75de11d1bdea162" style="width: 100.0%; height: 100.0%;">Haight Ashbury<br>Prix moyen: $288.60<br>Nombre de listings: 258</div>`)[0];
+                popup_789d0cae95cb7d83939cfab5fa153468.setContent(html_eb82f52072736ffcd75de11d1bdea162);
+            
+        
+
+        circle_marker_0038dd592f1046c985c693f8792af3af.bindPopup(popup_789d0cae95cb7d83939cfab5fa153468)
+        ;
+
+        
+    
+    
+            var circle_marker_d3f6b60e795df89e1fb3d42b6c0469d0 = L.circleMarker(
+                [37.78006742729794, -122.46626559118441],
+                {"bubblingMouseEvents": true, "color": "#91c800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91c800ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.212670403551897, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_64c072da91db6db8494a14ddc5e86154 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_331ced44fb7bef68c5dfa6cb7802bbdf = $(`<div id="html_331ced44fb7bef68c5dfa6cb7802bbdf" style="width: 100.0%; height: 100.0%;">Inner Richmond<br>Prix moyen: $375.18<br>Nombre de listings: 202</div>`)[0];
+                popup_64c072da91db6db8494a14ddc5e86154.setContent(html_331ced44fb7bef68c5dfa6cb7802bbdf);
+            
+        
+
+        circle_marker_d3f6b60e795df89e1fb3d42b6c0469d0.bindPopup(popup_64c072da91db6db8494a14ddc5e86154)
+        ;
+
+        
+    
+    
+            var circle_marker_362748f08ada1b5d000358792f528577 = L.circleMarker(
+                [37.76061317897682, -122.46583631824272],
+                {"bubblingMouseEvents": true, "color": "#53aa00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#53aa00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.449899597988733, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_375504f7322b3c75b9e1293ffe23d942 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bf7577264f2208bf421b6fa8ad3b9a61 = $(`<div id="html_bf7577264f2208bf421b6fa8ad3b9a61" style="width: 100.0%; height: 100.0%;">Inner Sunset<br>Prix moyen: $256.91<br>Nombre de listings: 155</div>`)[0];
+                popup_375504f7322b3c75b9e1293ffe23d942.setContent(html_bf7577264f2208bf421b6fa8ad3b9a61);
+            
+        
+
+        circle_marker_362748f08ada1b5d000358792f528577.bindPopup(popup_375504f7322b3c75b9e1293ffe23d942)
+        ;
+
+        
+    
+    
+            var circle_marker_3fd69fddafd77c64365b0e52e434fb84 = L.circleMarker(
+                [37.73071034677356, -122.48359823916734],
+                {"bubblingMouseEvents": true, "color": "#118800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#118800ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.280109889280517, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_09fc662588805039bba9a468c9ec9ffd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8179753e2257d3c4825e6f349a626c30 = $(`<div id="html_8179753e2257d3c4825e6f349a626c30" style="width: 100.0%; height: 100.0%;">Lakeshore<br>Prix moyen: $128.59<br>Nombre de listings: 53</div>`)[0];
+                popup_09fc662588805039bba9a468c9ec9ffd.setContent(html_8179753e2257d3c4825e6f349a626c30);
+            
+        
+
+        circle_marker_3fd69fddafd77c64365b0e52e434fb84.bindPopup(popup_09fc662588805039bba9a468c9ec9ffd)
+        ;
+
+        
+    
+    
+            var circle_marker_f55a6c77f55ecc9419a6d5c8613ff980 = L.circleMarker(
+                [37.800835161052646, -122.43474261822462],
+                {"bubblingMouseEvents": true, "color": "#ff8600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff8600ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.491933384829668, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_479096d3833a2eb6f443c21e6c28dbcb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4bce916a7ed03035a6fadb1b7b4e0028 = $(`<div id="html_4bce916a7ed03035a6fadb1b7b4e0028" style="width: 100.0%; height: 100.0%;">Marina<br>Prix moyen: $821.79<br>Nombre de listings: 240</div>`)[0];
+                popup_479096d3833a2eb6f443c21e6c28dbcb.setContent(html_4bce916a7ed03035a6fadb1b7b4e0028);
+            
+        
+
+        circle_marker_f55a6c77f55ecc9419a6d5c8613ff980.bindPopup(popup_479096d3833a2eb6f443c21e6c28dbcb)
+        ;
+
+        
+    
+    
+            var circle_marker_90fb23083a0ae9e69a79c6cefcc49c78 = L.circleMarker(
+                [37.758568773638395, -122.41780410453988],
+                {"bubblingMouseEvents": true, "color": "#329900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#329900ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 28.2379000772445, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_5c779190ad14aa0275394b98da85b1d6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4f31f1382edefe85e1f89ef7e5a42667 = $(`<div id="html_4f31f1382edefe85e1f89ef7e5a42667" style="width: 100.0%; height: 100.0%;">Mission<br>Prix moyen: $192.74<br>Nombre de listings: 540</div>`)[0];
+                popup_5c779190ad14aa0275394b98da85b1d6.setContent(html_4f31f1382edefe85e1f89ef7e5a42667);
+            
+        
+
+        circle_marker_90fb23083a0ae9e69a79c6cefcc49c78.bindPopup(popup_5c779190ad14aa0275394b98da85b1d6)
+        ;
+
+        
+    
+    
+            var circle_marker_51a7b784b4c4efd1fbd05d19a322b84c = L.circleMarker(
+                [37.79218041254983, -122.41483737687058],
+                {"bubblingMouseEvents": true, "color": "#319900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#319900ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24.05255888325765, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_7f1d0f14ba4f68a05a43fbc4beeef803 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a10c1fd50ca1bdc371dd7b4ce3824b33 = $(`<div id="html_a10c1fd50ca1bdc371dd7b4ce3824b33" style="width: 100.0%; height: 100.0%;">Nob Hill<br>Prix moyen: $191.23<br>Nombre de listings: 363</div>`)[0];
+                popup_7f1d0f14ba4f68a05a43fbc4beeef803.setContent(html_a10c1fd50ca1bdc371dd7b4ce3824b33);
+            
+        
+
+        circle_marker_51a7b784b4c4efd1fbd05d19a322b84c.bindPopup(popup_7f1d0f14ba4f68a05a43fbc4beeef803)
+        ;
+
+        
+    
+    
+            var circle_marker_e4f50c8cfc2be6e6f6bd858896fac957 = L.circleMarker(
+                [37.74960094546089, -122.43228795920618],
+                {"bubblingMouseEvents": true, "color": "#63b200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#63b200ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.588457268119896, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_ed156646fcf13226a6c19979b53efb4e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3b6108bf3f958e37f74f045a12148ffd = $(`<div id="html_3b6108bf3f958e37f74f045a12148ffd" style="width: 100.0%; height: 100.0%;">Noe Valley<br>Prix moyen: $287.58<br>Nombre de listings: 243</div>`)[0];
+                popup_ed156646fcf13226a6c19979b53efb4e.setContent(html_3b6108bf3f958e37f74f045a12148ffd);
+            
+        
+
+        circle_marker_e4f50c8cfc2be6e6f6bd858896fac957.bindPopup(popup_ed156646fcf13226a6c19979b53efb4e)
+        ;
+
+        
+    
+    
+            var circle_marker_508ec8b2fe53a6d57dc78944a5f4d3f7 = L.circleMarker(
+                [37.80411115810856, -122.41161340235317],
+                {"bubblingMouseEvents": true, "color": "#cae500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cae500ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 21.30950643030009, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_502fb05be681e7b15f14f5e0d716d3b2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_29810072f78a8dde70d1336a8080d563 = $(`<div id="html_29810072f78a8dde70d1336a8080d563" style="width: 100.0%; height: 100.0%;">North Beach<br>Prix moyen: $486.03<br>Nombre de listings: 266</div>`)[0];
+                popup_502fb05be681e7b15f14f5e0d716d3b2.setContent(html_29810072f78a8dde70d1336a8080d563);
+            
+        
+
+        circle_marker_508ec8b2fe53a6d57dc78944a5f4d3f7.bindPopup(popup_502fb05be681e7b15f14f5e0d716d3b2)
+        ;
+
+        
+    
+    
+            var circle_marker_981d4987636b55a7bf0e7bf3e3273e35 = L.circleMarker(
+                [37.71853155204849, -122.46131845485615],
+                {"bubblingMouseEvents": true, "color": "#108800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#108800ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.583005244258363, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_b3f31e29a3f8bdb2674fa952d65d2dc6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_79859fedc58958d03189d829f6d6eb0b = $(`<div id="html_79859fedc58958d03189d829f6d6eb0b" style="width: 100.0%; height: 100.0%;">Ocean View<br>Prix moyen: $127.50<br>Nombre de listings: 112</div>`)[0];
+                popup_b3f31e29a3f8bdb2674fa952d65d2dc6.setContent(html_79859fedc58958d03189d829f6d6eb0b);
+            
+        
+
+        circle_marker_981d4987636b55a7bf0e7bf3e3273e35.bindPopup(popup_b3f31e29a3f8bdb2674fa952d65d2dc6)
+        ;
+
+        
+    
+    
+            var circle_marker_efeb02b68fe9cc7f138b09d3be36fd71 = L.circleMarker(
+                [37.724713628013134, -122.4439443989503],
+                {"bubblingMouseEvents": true, "color": "#1a8d00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1a8d00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.6619037896906, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_13971c638f6e18245b2c293e7c381ef3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_94be02158290b1b42ea37551e4f54961 = $(`<div id="html_94be02158290b1b42ea37551e4f54961" style="width: 100.0%; height: 100.0%;">Outer Mission<br>Prix moyen: $145.91<br>Nombre de listings: 136</div>`)[0];
+                popup_13971c638f6e18245b2c293e7c381ef3.setContent(html_94be02158290b1b42ea37551e4f54961);
+            
+        
+
+        circle_marker_efeb02b68fe9cc7f138b09d3be36fd71.bindPopup(popup_13971c638f6e18245b2c293e7c381ef3)
+        ;
+
+        
+    
+    
+            var circle_marker_30506c900b7def162d51c3b9d4d16cca = L.circleMarker(
+                [37.77793666476837, -122.4940744889624],
+                {"bubblingMouseEvents": true, "color": "#349a00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#349a00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.820274961085254, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_d8ab9f5e785bfc397f8c15f9f4f3db98 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e95372d351ea364a23886df207606e20 = $(`<div id="html_e95372d351ea364a23886df207606e20" style="width: 100.0%; height: 100.0%;">Outer Richmond<br>Prix moyen: $197.40<br>Nombre de listings: 191</div>`)[0];
+                popup_d8ab9f5e785bfc397f8c15f9f4f3db98.setContent(html_e95372d351ea364a23886df207606e20);
+            
+        
+
+        circle_marker_30506c900b7def162d51c3b9d4d16cca.bindPopup(popup_d8ab9f5e785bfc397f8c15f9f4f3db98)
+        ;
+
+        
+    
+    
+            var circle_marker_868dfb60e944ae66bfbaed92df398ed5 = L.circleMarker(
+                [37.75628440112274, -122.49131794073945],
+                {"bubblingMouseEvents": true, "color": "#259300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#259300ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 23.384776310850235, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_4d2a061f381ff3a544dc9b0b7bf2e6dd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_34b0afade78e28dea55352be70ace7ad = $(`<div id="html_34b0afade78e28dea55352be70ace7ad" style="width: 100.0%; height: 100.0%;">Outer Sunset<br>Prix moyen: $168.27<br>Nombre de listings: 338</div>`)[0];
+                popup_4d2a061f381ff3a544dc9b0b7bf2e6dd.setContent(html_34b0afade78e28dea55352be70ace7ad);
+            
+        
+
+        circle_marker_868dfb60e944ae66bfbaed92df398ed5.bindPopup(popup_4d2a061f381ff3a544dc9b0b7bf2e6dd)
+        ;
+
+        
+    
+    
+            var circle_marker_b0f503080aba05fabfb27379811e833a = L.circleMarker(
+                [37.79251296531285, -122.43385994670258],
+                {"bubblingMouseEvents": true, "color": "#b4da00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b4da00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.114877048604, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_32371042c903ab607df1ab11c457d4fe = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_326d0a859e1031c8ebdfa6c8aa2c223c = $(`<div id="html_326d0a859e1031c8ebdfa6c8aa2c223c" style="width: 100.0%; height: 100.0%;">Pacific Heights<br>Prix moyen: $444.09<br>Nombre de listings: 172</div>`)[0];
+                popup_32371042c903ab607df1ab11c457d4fe.setContent(html_326d0a859e1031c8ebdfa6c8aa2c223c);
+            
+        
+
+        circle_marker_b0f503080aba05fabfb27379811e833a.bindPopup(popup_32371042c903ab607df1ab11c457d4fe)
+        ;
+
+        
+    
+    
+            var circle_marker_d8f453c87ca75775d06530c6ae16eaf7 = L.circleMarker(
+                [37.74167448668669, -122.48665917219104],
+                {"bubblingMouseEvents": true, "color": "#299500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#299500ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.489125293076057, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_611d77a6b98198b4797f0e1f584139f5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2e392bac6f5a59858ebcbb901b999d4e = $(`<div id="html_2e392bac6f5a59858ebcbb901b999d4e" style="width: 100.0%; height: 100.0%;">Parkside<br>Prix moyen: $175.25<br>Nombre de listings: 132</div>`)[0];
+                popup_611d77a6b98198b4797f0e1f584139f5.setContent(html_2e392bac6f5a59858ebcbb901b999d4e);
+            
+        
+
+        circle_marker_d8f453c87ca75775d06530c6ae16eaf7.bindPopup(popup_611d77a6b98198b4797f0e1f584139f5)
+        ;
+
+        
+    
+    
+            var circle_marker_f9511d8a82b9bdd3c4b1bd5ef7eb444a = L.circleMarker(
+                [37.75931264050655, -122.39816170000037],
+                {"bubblingMouseEvents": true, "color": "#59ad00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#59ad00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.874342087037917, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_1ca3e99de721963013c5ef2f6eeff621 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9498bf715379fc54f271ce675436d78b = $(`<div id="html_9498bf715379fc54f271ce675436d78b" style="width: 100.0%; height: 100.0%;">Potrero Hill<br>Prix moyen: $268.07<br>Nombre de listings: 141</div>`)[0];
+                popup_1ca3e99de721963013c5ef2f6eeff621.setContent(html_9498bf715379fc54f271ce675436d78b);
+            
+        
+
+        circle_marker_f9511d8a82b9bdd3c4b1bd5ef7eb444a.bindPopup(popup_1ca3e99de721963013c5ef2f6eeff621)
+        ;
+
+        
+    
+    
+            var circle_marker_2aba0b692b8f91177f0b436c096fe339 = L.circleMarker(
+                [37.7993974898797, -122.45770169476138],
+                {"bubblingMouseEvents": true, "color": "#71b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#71b900ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.242640687119284, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_96f14b79d80909baf8ea77d93870c48a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a374cad471baf4f0838717cc3addbd0b = $(`<div id="html_a374cad471baf4f0838717cc3addbd0b" style="width: 100.0%; height: 100.0%;">Presidio<br>Prix moyen: $315.11<br>Nombre de listings: 18</div>`)[0];
+                popup_96f14b79d80909baf8ea77d93870c48a.setContent(html_a374cad471baf4f0838717cc3addbd0b);
+            
+        
+
+        circle_marker_2aba0b692b8f91177f0b436c096fe339.bindPopup(popup_96f14b79d80909baf8ea77d93870c48a)
+        ;
+
+        
+    
+    
+            var circle_marker_ee5332b93988c8a7b94a309facd69e04 = L.circleMarker(
+                [37.78582850332084, -122.45256502158253],
+                {"bubblingMouseEvents": true, "color": "#61b100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#61b100ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.477225575051662, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_f4a2b403c9adbb24e04fb66b66152e2f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_41b2875910305bac7ac6a5c4b4de898d = $(`<div id="html_41b2875910305bac7ac6a5c4b4de898d" style="width: 100.0%; height: 100.0%;">Presidio Heights<br>Prix moyen: $283.96<br>Nombre de listings: 30</div>`)[0];
+                popup_f4a2b403c9adbb24e04fb66b66152e2f.setContent(html_41b2875910305bac7ac6a5c4b4de898d);
+            
+        
+
+        circle_marker_ee5332b93988c8a7b94a309facd69e04.bindPopup(popup_f4a2b403c9adbb24e04fb66b66152e2f)
+        ;
+
+        
+    
+    
+            var circle_marker_8aec753eb05d69dfa581ca80d36d4e9d = L.circleMarker(
+                [37.80225007272258, -122.41856564548137],
+                {"bubblingMouseEvents": true, "color": "#9dce00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9dce00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.92838827718412, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_16c9e38ffce160ecfc03c3172dca9527 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_42672f6c5133833bff9f03ea4b19a198 = $(`<div id="html_42672f6c5133833bff9f03ea4b19a198" style="width: 100.0%; height: 100.0%;">Russian Hill<br>Prix moyen: $399.07<br>Nombre de listings: 194</div>`)[0];
+                popup_16c9e38ffce160ecfc03c3172dca9527.setContent(html_42672f6c5133833bff9f03ea4b19a198);
+            
+        
+
+        circle_marker_8aec753eb05d69dfa581ca80d36d4e9d.bindPopup(popup_16c9e38ffce160ecfc03c3172dca9527)
+        ;
+
+        
+    
+    
+            var circle_marker_220d19b1d496cc58dbc0ccd0bc23a8b4 = L.circleMarker(
+                [37.782911424340924, -122.4961216218971],
+                {"bubblingMouseEvents": true, "color": "#399d00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#399d00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.645751311064591, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_760553bb7184eedf4487290234c37bb9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e87e4ccf0b80c682295a0d311ef8af96 = $(`<div id="html_e87e4ccf0b80c682295a0d311ef8af96" style="width: 100.0%; height: 100.0%;">Seacliff<br>Prix moyen: $206.40<br>Nombre de listings: 7</div>`)[0];
+                popup_760553bb7184eedf4487290234c37bb9.setContent(html_e87e4ccf0b80c682295a0d311ef8af96);
+            
+        
+
+        circle_marker_220d19b1d496cc58dbc0ccd0bc23a8b4.bindPopup(popup_760553bb7184eedf4487290234c37bb9)
+        ;
+
+        
+    
+    
+            var circle_marker_5d8ee0e8d359e1cd90efc8d1ca7e2755 = L.circleMarker(
+                [37.779034807846166, -122.40251770484402],
+                {"bubblingMouseEvents": true, "color": "#5eaf00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5eaf00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29.63736998950984, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_c0c59e0f947d1c4383ef7ca86afe1940 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_63a1fe163746a46d3242cd9d15ae631e = $(`<div id="html_63a1fe163746a46d3242cd9d15ae631e" style="width: 100.0%; height: 100.0%;">South of Market<br>Prix moyen: $276.96<br>Nombre de listings: 607</div>`)[0];
+                popup_c0c59e0f947d1c4383ef7ca86afe1940.setContent(html_63a1fe163746a46d3242cd9d15ae631e);
+            
+        
+
+        circle_marker_5d8ee0e8d359e1cd90efc8d1ca7e2755.bindPopup(popup_c0c59e0f947d1c4383ef7ca86afe1940)
+        ;
+
+        
+    
+    
+            var circle_marker_f964c7d16b6e0f7390c1ba5acb3c3102 = L.circleMarker(
+                [37.81094, -122.36604],
+                {"bubblingMouseEvents": true, "color": "#369b00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#369b00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.0, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_76d1ea4502b4015e2a5d16df6bfb7640 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_efbcb472fa42aa8fce26a4a40e1f932e = $(`<div id="html_efbcb472fa42aa8fce26a4a40e1f932e" style="width: 100.0%; height: 100.0%;">Treasure Island/YBI<br>Prix moyen: $200.00<br>Nombre de listings: 1</div>`)[0];
+                popup_76d1ea4502b4015e2a5d16df6bfb7640.setContent(html_efbcb472fa42aa8fce26a4a40e1f932e);
+            
+        
+
+        circle_marker_f964c7d16b6e0f7390c1ba5acb3c3102.bindPopup(popup_76d1ea4502b4015e2a5d16df6bfb7640)
+        ;
+
+        
+    
+    
+            var circle_marker_491eb513e0b8398a4b003fda73ea4ec3 = L.circleMarker(
+                [37.75344009075649, -122.44651132798026],
+                {"bubblingMouseEvents": true, "color": "#5eaf00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5eaf00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.54983443527075, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_98b3a76ade216461252a63d7cbb4c964 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d00feb7e8986cc24897c43b1a5966cf9 = $(`<div id="html_d00feb7e8986cc24897c43b1a5966cf9" style="width: 100.0%; height: 100.0%;">Twin Peaks<br>Prix moyen: $276.88<br>Nombre de listings: 57</div>`)[0];
+                popup_98b3a76ade216461252a63d7cbb4c964.setContent(html_d00feb7e8986cc24897c43b1a5966cf9);
+            
+        
+
+        circle_marker_491eb513e0b8398a4b003fda73ea4ec3.bindPopup(popup_98b3a76ade216461252a63d7cbb4c964)
+        ;
+
+        
+    
+    
+            var circle_marker_4394db03e98951c07180ac6e3e9199cb = L.circleMarker(
+                [37.715583022620486, -122.40637583768897],
+                {"bubblingMouseEvents": true, "color": "#0e8700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0e8700ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.810249675906654, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_64e4ee419eb64888de63fd456d1255a6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b34f47ea46dd5af96f934637157ffa53 = $(`<div id="html_b34f47ea46dd5af96f934637157ffa53" style="width: 100.0%; height: 100.0%;">Visitacion Valley<br>Prix moyen: $124.31<br>Nombre de listings: 61</div>`)[0];
+                popup_64e4ee419eb64888de63fd456d1255a6.setContent(html_b34f47ea46dd5af96f934637157ffa53);
+            
+        
+
+        circle_marker_4394db03e98951c07180ac6e3e9199cb.bindPopup(popup_64e4ee419eb64888de63fd456d1255a6)
+        ;
+
+        
+    
+    
+            var circle_marker_0e6f0bb0a14e56363a5b2a03e54cd46d = L.circleMarker(
+                [37.73566844088706, -122.45835326729798],
+                {"bubblingMouseEvents": true, "color": "#2d9700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2d9700ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.643650760992955, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_7999a1d9cc8fb8aafd049e4c952583bf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6e32c647a6bc2d469a899763d42367c8 = $(`<div id="html_6e32c647a6bc2d469a899763d42367c8" style="width: 100.0%; height: 100.0%;">West of Twin Peaks<br>Prix moyen: $183.42<br>Nombre de listings: 93</div>`)[0];
+                popup_7999a1d9cc8fb8aafd049e4c952583bf.setContent(html_6e32c647a6bc2d469a899763d42367c8);
+            
+        
+
+        circle_marker_0e6f0bb0a14e56363a5b2a03e54cd46d.bindPopup(popup_7999a1d9cc8fb8aafd049e4c952583bf)
+        ;
+
+        
+    
+    
+            var circle_marker_d395f33d28858cb09aa5bd7abf2f189e = L.circleMarker(
+                [37.778859027972544, -122.43190586889868],
+                {"bubblingMouseEvents": true, "color": "#56ab00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#56ab00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 27.561028345356956, "stroke": true, "weight": 3}
+            ).addTo(map_09db48f876c1f9bf80466dcbe720464a);
+        
+    
+        var popup_d85d8d017f54a2894823e52d41524fa2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6d302f35e9570d6e91e1d38b3cbf5a3a = $(`<div id="html_6d302f35e9570d6e91e1d38b3cbf5a3a" style="width: 100.0%; height: 100.0%;">Western Addition<br>Prix moyen: $261.46<br>Nombre de listings: 509</div>`)[0];
+                popup_d85d8d017f54a2894823e52d41524fa2.setContent(html_6d302f35e9570d6e91e1d38b3cbf5a3a);
+            
+        
+
+        circle_marker_d395f33d28858cb09aa5bd7abf2f189e.bindPopup(popup_d85d8d017f54a2894823e52d41524fa2)
+        ;
+
+        
+    
+</script>
+</html>

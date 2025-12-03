@@ -179,11 +179,3 @@ print(f"Best hyperparameters (best fold model): {best_params_overall}")
 # Nested CV results
 print(f"\nNested PyTorch MLP CV MAE: {np.mean(outer_mae_scores):.3f} +/- {np.std(outer_mae_scores):.3f}")
 print(f"Nested PyTorch MLP CV RMSE: {np.mean(outer_rmse_scores):.3f} +/- {np.std(outer_rmse_scores):.3f}")
-
-
-#Final Training MAE (best fold model): 0.311
-#Final Training RMSE (best fold model): 0.407
-#Best hyperparameters (best fold model): {'hidden1': 32, 'hidden2': 47, 'hidden3': 25, 'dropout': 0.11953297122492179, 'lr': 0.0033694310000257745, 'batch_size': 64}
-
-#Nested PyTorch MLP CV MAE: 0.426 +/- 0.033
-#Nested PyTorch MLP CV RMSE: 0.559 +/- 0.055

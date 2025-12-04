@@ -24,8 +24,8 @@ X_test_enc = pd.get_dummies(X_test, drop_first=True)
 X_train_enc, X_test_enc = X_train_enc.align(X_test_enc, join="left", axis=1)
 X_test_enc = X_test_enc.fillna(0)
 
-# 4. 10-fold cross-validation on train
-kf = KFold(n_splits=10, shuffle=True, random_state=229)
+# 4. 5-fold cross-validation on train
+kf = KFold(n_splits=5, shuffle=True, random_state=229)
 
 # Build pipeline: standardize + KNN
 model = Pipeline([
@@ -40,8 +40,8 @@ rmse_scores = np.sqrt(
     -cross_val_score(model, X_train_enc, y_train, scoring="neg_mean_squared_error", cv=kf)
 )
 
-print(f"10-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
-print(f"10-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
+print(f"5-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
+print(f"5-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 
 # 5. Fit on full training set
 model.fit(X_train_enc, y_train)

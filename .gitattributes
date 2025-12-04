@@ -1,3 +1,2 @@
-# Uncomment if you plan to use Git LFS for large data files
 # *.csv filter=lfs diff=lfs merge=lfs -text
 # data/raw/** filter=lfs diff=lfs merge=lfs -text

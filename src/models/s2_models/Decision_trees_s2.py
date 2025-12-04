@@ -1,3 +1,14 @@
+"""
+Decision Tree Regression with Cost-Complexity Pruning (Geocluster CV)
+
+Method summary:
+- Load s2 tabular data, one-hot encode categorical variables, align train/test
+- Use GroupShuffleSplit to trace validation curve over ccp_alpha pruning values
+- Select best pruning strength from validation R^2 curve
+- Fit pruned tree on full training data and evaluate with GroupKFold MAE/RMSE
+- Report training performance for reference
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import GroupShuffleSplit, GroupKFold, cross_val_score

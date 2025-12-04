@@ -17,9 +17,7 @@ from graph_builder import (
 )
 
 
-# -------------------------------
-# 1. GraphSAGE model definition
-# -------------------------------
+# GraphSAGE model definition
 class GraphSAGE_Model(nn.Module):
     def __init__(self, in_channels, hidden_channels=128, out_channels=1, dropout=0.2):
         super().__init__()
@@ -41,9 +39,7 @@ class GraphSAGE_Model(nn.Module):
         return out.squeeze(-1)
 
 
-# ---------------------------------------
-# 2. Feature building (train vs. test)
-# ---------------------------------------
+# Feature building (train vs. test)
 NUMERIC_COLS = [
     "latitude",
     "longitude",
@@ -71,25 +67,25 @@ def build_node_features_train(df_train):
     the dummy-column schema + normalization stats.
     df_train['embedding_sbert'] is assumed to already contain np.ndarray rows.
     """
-    # ----- numeric -----
+    # numeric
     X_num = df_train[NUMERIC_COLS].astype(np.float32).values
     num_mean = X_num.mean(axis=0, keepdims=True)
     num_std = X_num.std(axis=0, keepdims=True) + 1e-6
     X_num_norm = (X_num - num_mean) / num_std
 
-    # ----- categorical → one-hot -----
+    # categorical → one-hot
     cat_dummies = pd.get_dummies(df_train[CATEGORICAL_COLS], drop_first=True)
     cat_dummy_cols = cat_dummies.columns.tolist()
     X_cat = cat_dummies.values.astype(np.float32)
 
-    # ----- embeddings -----
-    emb_list = df_train["embedding_sbert"].values  # already np arrays
+    # embeddings
+    emb_list = df_train["embedding_sbert"].values
     X_emb = np.stack(emb_list).astype(np.float32)
     emb_mean = X_emb.mean(axis=0, keepdims=True)
     emb_std = X_emb.std(axis=0, keepdims=True) + 1e-6
     X_emb_norm = (X_emb - emb_mean) / emb_std
 
-    # ----- concat [num | cat | emb] -----
+    # concat [num | cat | emb]
     X_train = np.concatenate([X_num_norm, X_cat, X_emb_norm], axis=1).astype(np.float32)
 
     feature_info = {
@@ -110,30 +106,28 @@ def build_node_features_test(df_test, feature_info):
     Build node feature matrix X for test subset, using the
     dummy-column schema + normalization stats from training.
     """
-    # ----- numeric -----
+    # numeric
     X_num = df_test[feature_info["num_cols"]].astype(np.float32).values
     X_num_norm = (X_num - feature_info["num_mean"]) / feature_info["num_std"]
 
-    # ----- categorical → one-hot -----
+    # categorical → one-hot
     cat_dummies = pd.get_dummies(df_test[feature_info["cat_cols"]], drop_first=True)
     cat_dummies = cat_dummies.reindex(
         columns=feature_info["cat_dummy_cols"], fill_value=0
     )
     X_cat = cat_dummies.values.astype(np.float32)
 
-    # ----- embeddings -----
+    # embeddings
     emb_list = df_test["embedding_sbert"].values
     X_emb = np.stack(emb_list).astype(np.float32)
     X_emb_norm = (X_emb - feature_info["emb_mean"]) / feature_info["emb_std"]
 
-    # ----- concat -----
+    # concat
     X_test = np.concatenate([X_num_norm, X_cat, X_emb_norm], axis=1).astype(np.float32)
     return X_test
 
 
-# -----------------------
-# 3. Training helpers
-# -----------------------
+# Training helpers
 def make_train_val_masks(num_nodes, val_ratio=0.1, seed=229):
     rng = np.random.RandomState(seed)
     idx = np.arange(num_nodes)
@@ -165,14 +159,14 @@ def train_one_fold(
     Also train a Linear Regression baseline on the same features.
     """
 
-    # ---------- Build features ----------
+    # Build features
     X_train_np, feature_info = build_node_features_train(df_train_fold)
     X_test_np = build_node_features_test(df_test_fold, feature_info)
 
     y_train_np = df_train_fold["log_price"].values.astype(np.float32)
     y_test_np = df_test_fold["log_price"].values.astype(np.float32)
 
-    # ---------- Tabular baseline (Linear Regression) ----------
+    # Tabular baseline (Linear Regression)
     linreg = LinearRegression()
     linreg.fit(X_train_np, y_train_np)
     y_pred_test_lin = linreg.predict(X_test_np)
@@ -182,11 +176,11 @@ def train_one_fold(
         f"  [Baseline Linear] Test MAE: {lin_mae:.4f} | Test RMSE: {lin_rmse:.4f}"
     )
 
-    # ---------- Build graphs ----------
+    # Build graphs
     edge_index_train = build_edge_index_for_df(df_train_fold, k_spatial, k_text)
     edge_index_test = build_edge_index_for_df(df_test_fold, k_spatial, k_text)
 
-    # ---------- Torch tensors ----------
+    # Torch tensors
     x_train = torch.from_numpy(X_train_np).to(device)
     y_train = torch.from_numpy(y_train_np).to(device)
     x_test = torch.from_numpy(X_test_np).to(device)
@@ -212,7 +206,7 @@ def train_one_fold(
         y=y_test,
     )
 
-    # ---------- Model ----------
+    # Model
     in_channels = X_train_np.shape[1]
     model = GraphSAGE_Model(in_channels, hidden_channels, out_channels=1, dropout=0.2)
     model = model.to(device)
@@ -220,7 +214,7 @@ def train_one_fold(
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criterion = nn.MSELoss()
 
-    # ---------- Training loop ----------
+    # Training loop
     for epoch in range(1, epochs + 1):
         model.train()
         optimizer.zero_grad()
@@ -247,7 +241,7 @@ def train_one_fold(
                 f"| Val MSE: {val_loss.item():.4f} | Val MAE: {val_mae.item():.4f}"
             )
 
-    # ---------- Test on unseen graph ----------
+    # Test on unseen graph
     model.eval()
     with torch.no_grad():
         preds_test = model(data_test.x, data_test.edge_index)
@@ -257,24 +251,20 @@ def train_one_fold(
     return mse_test, mae_test, lin_mae, lin_rmse
 
 
-# ---------------------------
-# 4. 5-fold geocluster CV + k tuning
-# ---------------------------
+# 5-fold geocluster CV + k tuning
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("Using device:", device)
 
-    # Load full labeled data (CSV has SBERT as string)
+    # (CSV has SBERT as string)
     df = pd.read_csv("../data/train_s2.csv")
 
-    # Parse embeddings ONCE into np.ndarray per row
     df["embedding_sbert"] = df["embedding_sbert"].apply(convert_embedding_string)
 
     groups = df["geo_cluster"].values
     gkf = GroupKFold(n_splits=5)
 
-    # ----- Hyperparameter grid for k -----
-    # Adjust if runtime is too long
+    # Hyperparameter grid for k
     spatial_ks = [3, 5, 8, 10, 15, 20, 30]
     text_ks = [0, 3, 5, 8, 10]  # 0 = no text edges
 
@@ -340,7 +330,7 @@ def main():
                 lin_rmse_arr.mean(),
             )
 
-    # ----- Overall comparison across k -----
+    # Overall comparison across k
     print("\n########## Overall comparison across k ##########")
     for (k_spatial, k_text), (mse_mean, mae_mean) in results_gnn.items():
         lin_mae_mean, lin_rmse_mean = results_lin[(k_spatial, k_text)]

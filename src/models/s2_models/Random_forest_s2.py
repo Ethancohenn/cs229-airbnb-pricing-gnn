@@ -1,3 +1,13 @@
+"""
+Random Forest Regression with Optuna Tuning (Geocluster CV, tabular features)
+
+Method summary:
+- Load s2 tabular data, one-hot encode categorical variables, align train/test
+- Tune Random Forest hyperparameters with GroupKFold geocluster CV
+- Fit final model on full training data and compute geocluster CV MAE/RMSE
+- Report training performance; test-set features prepared for downstream use
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import GroupKFold, cross_val_score
@@ -5,7 +15,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import optuna
 
-# 1. Load data
 train_df = pd.read_csv("../../data/train_s2.csv")
 test_df = pd.read_csv("../../data/test_s2.csv")
 groups_train = train_df["geo_cluster"]
@@ -20,10 +29,10 @@ X_test_enc = pd.get_dummies(X_test, drop_first=True)
 X_train_enc, X_test_enc = X_train_enc.align(X_test_enc, join="left", axis=1)
 X_test_enc = X_test_enc.fillna(0)
 
-# 2. CV setup
+# CV setup
 gkf = GroupKFold(n_splits=5)
 
-# 3. Optuna objective
+# Optuna objective
 def objective(trial):
     params = {
         "n_estimators": trial.suggest_int("n_estimators", 100, 500, step=50),
@@ -47,18 +56,18 @@ def objective(trial):
     return mae_scores.mean()
 
 
-# 4. Run Optuna study
+# Run Optuna study
 study = optuna.create_study(direction="minimize")
-study.optimize(objective, n_trials=50)  # You can increase n_trials for more thorough search
+study.optimize(objective, n_trials=50)
 
 best_params = study.best_params
 print("Best hyperparameters:", best_params)
 
-# 5. Train final model on full training set
+# Train final model on full training set
 final_model = RandomForestRegressor(**best_params, random_state=229, n_jobs=-1)
 final_model.fit(X_train_enc, y_train)
 
-# 6. Outer CV for unbiased performance estimate
+# Outer CV for unbiased performance estimate
 outer_mae = -cross_val_score(
     final_model,
     X_train_enc,
@@ -81,7 +90,6 @@ outer_rmse = np.sqrt(-cross_val_score(
 print(f"Geocluster CV MAE: {outer_mae.mean():.3f} +/- {outer_mae.std():.3f}")
 print(f"Geocluster CV RMSE: {outer_rmse.mean():.3f} +/- {outer_rmse.std():.3f}")
 
-# 7. Training performance
 y_pred_train = final_model.predict(X_train_enc)
 train_mae = mean_absolute_error(y_train, y_pred_train)
 train_rmse = np.sqrt(mean_squared_error(y_train, y_pred_train))

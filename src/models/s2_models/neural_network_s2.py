@@ -1,3 +1,13 @@
+"""
+PyTorch MLP Regression with Optuna Tuning (Nested Geocluster CV)
+
+Method summary:
+- Load s2 tabular data, one-hot encode features, push tensors to CPU/CUDA
+- Use nested GroupKFold CV with Optuna to tune layer sizes, dropout, lr, batch
+- Train the best MLP per outer fold with standardized inputs and ReLU blocks
+- Track best fold model; report nested CV MAE/RMSE and training performance
+"""
+
 import optuna
 import pandas as pd
 import numpy as np
@@ -9,9 +19,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GroupKFold
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-# ===========================
-# Load data
-# ===========================
 train_df = pd.read_csv("../../data/train_s2.csv")
 groups_train = train_df["geo_cluster"]
 
@@ -21,9 +28,7 @@ X_train_enc = pd.get_dummies(X_train, drop_first=True).values
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# ===========================
 # MLP model with 3 hidden layers
-# ===========================
 class MLP(nn.Module):
     def __init__(self, input_dim, hidden1, hidden2, hidden3, dropout):
         super().__init__()
@@ -49,9 +54,7 @@ class MLP(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-# ===========================
 # Training function
-# ===========================
 def train_model(model, loader, optimizer, criterion, epochs=50):
     model.train()
     for _ in range(epochs):
@@ -63,9 +66,7 @@ def train_model(model, loader, optimizer, criterion, epochs=50):
             loss.backward()
             optimizer.step()
 
-# ===========================
 # Objective function for Optuna
-# ===========================
 def objective_factory(X_tr, y_tr, groups_tr):
     def objective(trial):
         hidden1 = trial.suggest_int("hidden1", 32, 128)
@@ -101,9 +102,8 @@ def objective_factory(X_tr, y_tr, groups_tr):
         return np.mean(mae_scores)
     return objective
 
-# ===========================
+
 # Nested CV
-# ===========================
 gkf_outer = GroupKFold(n_splits=5)
 outer_mae_scores, outer_rmse_scores = [], []
 
@@ -160,9 +160,7 @@ for train_idx, val_idx in gkf_outer.split(X_train_enc, y_train, groups_train):
         best_params_overall = best_params
         best_scaler_overall = scaler
 
-# ===========================
 # Final training error using best model overall
-# ===========================
 X_train_scaled = best_scaler_overall.transform(X_train_enc)
 
 best_model_overall.eval()
@@ -179,11 +177,3 @@ print(f"Best hyperparameters (best fold model): {best_params_overall}")
 # Nested CV results
 print(f"\nNested PyTorch MLP CV MAE: {np.mean(outer_mae_scores):.3f} +/- {np.std(outer_mae_scores):.3f}")
 print(f"Nested PyTorch MLP CV RMSE: {np.mean(outer_rmse_scores):.3f} +/- {np.std(outer_rmse_scores):.3f}")
-
-
-#Final Training MAE (best fold model): 0.311
-#Final Training RMSE (best fold model): 0.407
-#Best hyperparameters (best fold model): {'hidden1': 32, 'hidden2': 47, 'hidden3': 25, 'dropout': 0.11953297122492179, 'lr': 0.0033694310000257745, 'batch_size': 64}
-
-#Nested PyTorch MLP CV MAE: 0.426 +/- 0.033
-#Nested PyTorch MLP CV RMSE: 0.559 +/- 0.055

@@ -1,3 +1,13 @@
+"""
+Linear/Ridge/Lasso Regression with Optuna Alpha Tuning (Geocluster CV)
+
+Method summary:
+- Load s2 tabular data, one-hot encode categorical variables, align train/test
+- Use GroupKFold CV to tune Ridge and Lasso regularization strength with Optuna
+- Evaluate LinearRegression, Ridge, and Lasso via geocluster MAE/RMSE
+- Fit each model on full training data and report training performance
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import GroupKFold, cross_val_score
@@ -5,7 +15,6 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import optuna
 
-# 1. Load data
 train_df = pd.read_csv("../../data/train_s2.csv")
 test_df = pd.read_csv("../../data/test_s2.csv")
 groups_train = train_df["geo_cluster"]
@@ -20,10 +29,10 @@ X_test_enc = pd.get_dummies(X_test, drop_first=True)
 X_train_enc, X_test_enc = X_train_enc.align(X_test_enc, join="left", axis=1)
 X_test_enc = X_test_enc.fillna(0)
 
-# 2. CV setup
+# CV setup
 gkf = GroupKFold(n_splits=5)
 
-# 3. Function to optimize Ridge/Lasso alpha
+# Function to optimize Ridge/Lasso alpha
 def objective(trial, model_class):
     alpha = trial.suggest_float("alpha", 1e-4, 10.0, log=True)
     model = model_class(alpha=alpha)
@@ -37,19 +46,19 @@ def objective(trial, model_class):
     )
     return mae_scores.mean()  # Optuna minimizes objective by default
 
-# 4. Run Optuna study for Ridge
+# Run Optuna for Ridge
 ridge_study = optuna.create_study(direction="minimize")
 ridge_study.optimize(lambda trial: objective(trial, Ridge), n_trials=50)
 best_ridge_alpha = ridge_study.best_params["alpha"]
 print(f"Best Ridge alpha: {best_ridge_alpha:.5f}")
 
-# 5. Run Optuna study for Lasso
+# Run Optuna for Lasso
 lasso_study = optuna.create_study(direction="minimize")
 lasso_study.optimize(lambda trial: objective(trial, Lasso), n_trials=50)
 best_lasso_alpha = lasso_study.best_params["alpha"]
 print(f"Best Lasso alpha: {best_lasso_alpha:.5f}")
 
-# 6. Fit models with best alpha and evaluate
+# Fit models with best alpha and evaluate
 models = {
     "LinearRegression": LinearRegression(),
     "Ridge": Ridge(alpha=best_ridge_alpha),

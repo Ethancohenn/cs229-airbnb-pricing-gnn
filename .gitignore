@@ -14,7 +14,7 @@ venv/
 # OS files
 .DS_Store
 
-# Data/model artifacts (keep .gitkeep)
+# Data/model artifacts
 data/*
 !data/**/.gitkeep
 models/*

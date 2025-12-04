@@ -1,3 +1,13 @@
+"""
+XGBoost Regression with Optuna Tuning (Geocluster CV, tabular features)
+
+Method summary:
+- Load s2 tabular data and one-hot encode categorical variables
+- Run nested GroupKFold CV: inner Optuna tuning, outer unbiased MAE/RMSE
+- Train final XGBoost model on full data with best hyperparameters
+- Report training performance and plot top feature importances
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import GroupKFold, cross_val_score
@@ -6,18 +16,16 @@ from xgboost import XGBRegressor, plot_importance
 import optuna
 import matplotlib.pyplot as plt
 
-# 1. Load train and test data
 train_df = pd.read_csv("../../data/train_s2.csv")
 groups_train = train_df["geo_cluster"]
 y_train = train_df["log_price"]
 X_train = train_df.drop(columns=["log_price", "geo_cluster"])
 
-# 2. Encode categorical variables
+# Encode categorical variables
 X_train_enc = pd.get_dummies(X_train, drop_first=True)
 
-# =========================
-# 3. Double CV
-# =========================
+
+# Double CV
 outer_gkf = GroupKFold(n_splits=5)
 outer_mae_scores, outer_rmse_scores = [], []
 
@@ -27,7 +35,7 @@ for fold, (train_idx, test_idx) in enumerate(outer_gkf.split(X_train_enc, y_trai
     y_tr, y_val = y_train.iloc[train_idx], y_train.iloc[test_idx]
     groups_tr = groups_train.iloc[train_idx]
 
-    # 3a. Inner CV for hyperparameter tuning
+    # Inner CV for hyperparameter tuning
     def objective(trial):
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 300, 600),
@@ -59,7 +67,7 @@ for fold, (train_idx, test_idx) in enumerate(outer_gkf.split(X_train_enc, y_trai
 
     print("Best params (inner CV):", study.best_params)
 
-    # 3b. Train final model on outer train split
+    # Train final model on outer train split
     best_params = study.best_params
     model = XGBRegressor(
         **best_params,
@@ -69,7 +77,7 @@ for fold, (train_idx, test_idx) in enumerate(outer_gkf.split(X_train_enc, y_trai
     )
     model.fit(X_tr, y_tr)
 
-    # 3c. Evaluate on outer validation split
+    # Evaluate on outer validation split
     y_val_pred = model.predict(X_val)
     outer_mae = mean_absolute_error(y_val, y_val_pred)
     outer_rmse = np.sqrt(mean_squared_error(y_val, y_val_pred))
@@ -78,15 +86,10 @@ for fold, (train_idx, test_idx) in enumerate(outer_gkf.split(X_train_enc, y_trai
 
     print(f"Outer fold MAE: {outer_mae:.3f}, RMSE: {outer_rmse:.3f}")
 
-# =========================
-# 4. Overall CV results
-# =========================
 print(f"\nGeocluster CV MAE: {np.mean(outer_mae_scores):.3f} +/- {np.std(outer_mae_scores):.3f}")
 print(f"Geocluster CV RMSE: {np.mean(outer_rmse_scores):.3f} +/- {np.std(outer_rmse_scores):.3f}")
 
-# =========================
-# 5. Train final model on full dataset with best params from last fold
-# =========================
+# Train final model on full dataset with best params from last fold
 final_model = XGBRegressor(
     **study.best_params,
     objective="reg:squarederror",

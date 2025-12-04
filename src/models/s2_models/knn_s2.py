@@ -1,3 +1,13 @@
+"""
+KNN Regression with PCA Pipeline and Optuna Tuning (Nested Geocluster CV)
+
+Method summary:
+- Load s2 tabular data and one-hot encode categorical variables
+- Run nested GroupKFold CV: inner Optuna tunes neighbors/weights/p and PCA dims
+- Evaluate outer folds with MAE/RMSE for unbiased geocluster performance
+- Re-optimize on full data, train final scaler+PCA+KNN pipeline, report metrics
+"""
+
 import optuna
 import pandas as pd
 import numpy as np
@@ -8,9 +18,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-# ===========================
-# Load data
-# ===========================
+
 train_df = pd.read_csv("../../data/train_s2.csv")
 groups_train = train_df["geo_cluster"]
 
@@ -18,9 +26,7 @@ y_train = train_df["log_price"]
 X_train = train_df.drop(columns=["log_price", "geo_cluster"])
 X_train_enc = pd.get_dummies(X_train, drop_first=True)
 
-# ===========================
 # Outer CV for unbiased estimation
-# ===========================
 gkf_outer = GroupKFold(n_splits=5)
 outer_mae_scores = []
 outer_rmse_scores = []
@@ -30,9 +36,7 @@ for train_idx, val_idx in gkf_outer.split(X_train_enc, y_train, groups=groups_tr
     y_tr, y_val = y_train.iloc[train_idx], y_train.iloc[val_idx]
     groups_tr = groups_train.iloc[train_idx]
 
-    # ===========================
     # Inner Optuna study
-    # ===========================
     def objective(trial):
         n_neighbors = trial.suggest_int("n_neighbors", 2, 20)
         weights = trial.suggest_categorical("weights", ["uniform", "distance"])
@@ -61,9 +65,7 @@ for train_idx, val_idx in gkf_outer.split(X_train_enc, y_train, groups=groups_tr
     study = optuna.create_study(direction="minimize")
     study.optimize(objective, n_trials=20, show_progress_bar=False)
 
-    # ===========================
     # Fit best model on inner training fold
-    # ===========================
     best_model = Pipeline([
         ("scaler", StandardScaler()),
         ("pca", PCA(n_components=study.best_params["n_components"])),
@@ -80,15 +82,11 @@ for train_idx, val_idx in gkf_outer.split(X_train_enc, y_train, groups=groups_tr
     outer_mae_scores.append(mean_absolute_error(y_val, y_pred_val))
     outer_rmse_scores.append(np.sqrt(mean_squared_error(y_val, y_pred_val)))
 
-# ===========================
 # Outer CV results
-# ===========================
 print(f"Nested Geocluster CV MAE: {np.mean(outer_mae_scores):.3f} +/- {np.std(outer_mae_scores):.3f}")
 print(f"Nested Geocluster CV RMSE: {np.mean(outer_rmse_scores):.3f} +/- {np.std(outer_rmse_scores):.3f}")
 
-# ===========================
 # Train final model on full dataset
-# ===========================
 def final_objective(trial):
     n_neighbors = trial.suggest_int("n_neighbors", 2, 20)
     weights = trial.suggest_categorical("weights", ["uniform", "distance"])

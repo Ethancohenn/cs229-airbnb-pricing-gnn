@@ -1,3 +1,13 @@
+"""
+Random Forest Regression (Tabular Features Only)
+
+Method summary:
+- Load train/test tabular data and one-hot encode categorical variables
+- Align feature matrices between train and test sets
+- Evaluate Random Forest using 5-fold cross-validation (MAE, RMSE)
+- Train final model on full training set and report training performance
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold, cross_val_score
@@ -6,17 +16,15 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# 1. Load train and test data
 train_df = pd.read_csv("../../data/train_s1.csv")
 test_df = pd.read_csv("../../data/test_s1.csv")
 
-# 2. Split features & target
 y_train = train_df["log_price"]
 y_test = test_df["log_price"]
 X_train = train_df.drop(columns=["log_price"])
 X_test = test_df.drop(columns=["log_price"])
 
-# 3. Encode categorical variables
+# Encode categorical variables
 X_train_enc = pd.get_dummies(X_train, drop_first=True)
 X_test_enc = pd.get_dummies(X_test, drop_first=True)
 
@@ -24,16 +32,16 @@ X_test_enc = pd.get_dummies(X_test, drop_first=True)
 X_train_enc, X_test_enc = X_train_enc.align(X_test_enc, join="left", axis=1)
 X_test_enc = X_test_enc.fillna(0)
 
-# 4. 10-fold cross-validation on train
+# 4. 5-fold cross-validation on train
 model = RandomForestRegressor(
-    n_estimators=100,       # Number of trees in the forest
-    max_depth=None,         # You can tune this later
+    n_estimators=100,
+    max_depth=None,      
     min_samples_split=2,
     min_samples_leaf=1,
     random_state=229,
-    n_jobs=-1               # Use all cores for faster training
+    n_jobs=-1  
 )
-kf = KFold(n_splits=10, shuffle=True, random_state=229)
+kf = KFold(n_splits=5, shuffle=True, random_state=229)
 
 mae_scores = -cross_val_score(
     model, X_train_enc, y_train, scoring="neg_mean_absolute_error", cv=kf, n_jobs=-1
@@ -45,7 +53,7 @@ rmse_scores = np.sqrt(
 print(f"5-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
 print(f"5-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 
-# 5. Fit on full training set
+# Fit on full training set
 model.fit(X_train_enc, y_train)
 y_pred_train = model.predict(X_train_enc)
 train_mae = mean_absolute_error(y_train, y_pred_train)

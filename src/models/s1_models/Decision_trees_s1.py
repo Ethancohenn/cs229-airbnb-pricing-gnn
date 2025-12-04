@@ -64,13 +64,13 @@ print(f"Best ccp_alpha based on validation: {best_alpha:.5f}")
 final_tree = DecisionTreeRegressor(random_state=229, ccp_alpha=best_alpha)
 final_tree.fit(X_train_enc, y_train)
 
-# 8. 10-fold cross-validation on full training set
-kf = KFold(n_splits=10, shuffle=True, random_state=229)
+# 8. 5-fold cross-validation on full training set
+kf = KFold(n_splits=5, shuffle=True, random_state=229)
 mae_scores = -cross_val_score(final_tree, X_train_enc, y_train, scoring="neg_mean_absolute_error", cv=kf)
 rmse_scores = np.sqrt(-cross_val_score(final_tree, X_train_enc, y_train, scoring="neg_mean_squared_error", cv=kf))
 
-print(f"10-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
-print(f"10-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
+print(f"5-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
+print(f"5-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 
 # 9. Fit final model on full train & evaluate
 y_pred_train = final_tree.predict(X_train_enc)

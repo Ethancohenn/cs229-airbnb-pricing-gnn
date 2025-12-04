@@ -76,13 +76,13 @@ final_xgb = XGBRegressor(
 )
 final_xgb.fit(X_train_enc, y_train)
 
-# 9. 10-fold cross-validation
-kf = KFold(n_splits=10, shuffle=True, random_state=229)
+# 9. 5-fold cross-validation
+kf = KFold(n_splits=5, shuffle=True, random_state=229)
 mae_scores = -cross_val_score(final_xgb, X_train_enc, y_train, scoring="neg_mean_absolute_error", cv=kf)
 rmse_scores = np.sqrt(-cross_val_score(final_xgb, X_train_enc, y_train, scoring="neg_mean_squared_error", cv=kf))
 
-print(f"10-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
-print(f"10-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
+print(f"5-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
+print(f"5-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 
 # 10. Evaluate on training set
 y_pred_train = final_xgb.predict(X_train_enc)

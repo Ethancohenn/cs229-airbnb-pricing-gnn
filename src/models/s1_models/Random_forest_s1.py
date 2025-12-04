@@ -42,8 +42,8 @@ rmse_scores = np.sqrt(
     -cross_val_score(model, X_train_enc, y_train, scoring="neg_mean_squared_error", cv=kf, n_jobs=-1)
 )
 
-print(f"10-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
-print(f"10-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
+print(f"5-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
+print(f"5-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 
 # 5. Fit on full training set
 model.fit(X_train_enc, y_train)

@@ -1,3 +1,14 @@
+"""
+KNN Regression (with Standardization)
+
+Method summary:
+- Load train/test data and one-hot encode categorical variables
+- Align feature columns between train and test sets
+- Build a pipeline: StandardScaler + KNeighborsRegressor
+- Evaluate model using 5-fold cross-validation (MAE, RMSE)
+- Fit final model on full training data and report training performance
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold, cross_val_score
@@ -6,17 +17,17 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-# 1. Load train and test data
+# Load train and test data
 train_df = pd.read_csv("../../data/train_s1.csv")
 test_df = pd.read_csv("../../data/test_s1.csv")
 
-# 2. Split features & target
+# Split features & target
 y_train = train_df["log_price"]
 y_test = test_df["log_price"]
 X_train = train_df.drop(columns=["log_price"])
 X_test = test_df.drop(columns=["log_price"])
 
-# 3. Encode categorical variables
+# Encode categorical variables
 X_train_enc = pd.get_dummies(X_train, drop_first=True)
 X_test_enc = pd.get_dummies(X_test, drop_first=True)
 
@@ -24,7 +35,7 @@ X_test_enc = pd.get_dummies(X_test, drop_first=True)
 X_train_enc, X_test_enc = X_train_enc.align(X_test_enc, join="left", axis=1)
 X_test_enc = X_test_enc.fillna(0)
 
-# 4. 5-fold cross-validation on train
+# 5-fold cross-validation on train
 kf = KFold(n_splits=5, shuffle=True, random_state=229)
 
 # Build pipeline: standardize + KNN
@@ -43,7 +54,7 @@ rmse_scores = np.sqrt(
 print(f"5-Fold CV MAE: {mae_scores.mean():.3f} ± {mae_scores.std():.3f}")
 print(f"5-Fold CV RMSE: {rmse_scores.mean():.3f} ± {rmse_scores.std():.3f}")
 
-# 5. Fit on full training set
+# Fit on full training set
 model.fit(X_train_enc, y_train)
 y_pred_train = model.predict(X_train_enc)
 

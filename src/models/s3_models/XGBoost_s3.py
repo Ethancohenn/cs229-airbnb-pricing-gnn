@@ -21,19 +21,15 @@ from xgboost import XGBRegressor, plot_importance
 
 from data_s3_utils import load_s2_with_embeddings
 
-# =========================
-# 1. Load data (tabular + SBERT embeddings)
-# =========================
+
 X_train_enc, X_test_enc, y_train, y_test, groups_train = load_s2_with_embeddings()
 
-# Convert to numpy arrays (no pandas column names → no feature_names issues)
 X_train_enc = np.asarray(X_train_enc)
 y_train = np.asarray(y_train)
 groups_train = np.asarray(groups_train)
 
-# =========================
+
 # 2. Nested Geocluster CV
-# =========================
 outer_gkf = GroupKFold(n_splits=5)
 outer_mae_scores, outer_rmse_scores = [], []
 
@@ -45,7 +41,7 @@ for fold, (train_idx, test_idx) in enumerate(
     y_tr, y_val = y_train[train_idx], y_train[test_idx]
     groups_tr = groups_train[train_idx]
 
-    # 2a. Inner CV for hyperparameter tuning
+    # Inner CV for hyperparameter tuning
     def objective(trial):
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 300, 600),
@@ -80,7 +76,7 @@ for fold, (train_idx, test_idx) in enumerate(
 
     print("Best params (inner CV):", study.best_params)
 
-    # 2b. Train final model on outer train split
+    # Train final model on outer train split
     best_params = study.best_params
     model = XGBRegressor(
         **best_params,
@@ -90,7 +86,7 @@ for fold, (train_idx, test_idx) in enumerate(
     )
     model.fit(X_tr, y_tr)
 
-    # 2c. Evaluate on outer validation split
+    # Evaluate on outer validation split
     y_val_pred = model.predict(X_val)
     outer_mae = mean_absolute_error(y_val, y_val_pred)
     outer_rmse = np.sqrt(mean_squared_error(y_val, y_val_pred))
@@ -99,9 +95,7 @@ for fold, (train_idx, test_idx) in enumerate(
 
     print(f"Outer fold MAE: {outer_mae:.3f}, RMSE: {outer_rmse:.3f}")
 
-# =========================
-# 3. Overall CV results
-# =========================
+# Overall CV results
 print(
     f"\nGeocluster CV MAE: {np.mean(outer_mae_scores):.3f} "
     f"+/- {np.std(outer_mae_scores):.3f}"
@@ -111,9 +105,7 @@ print(
     f"+/- {np.std(outer_rmse_scores):.3f}"
 )
 
-# =========================
-# 4. Train final model on full dataset with best params from last fold
-# =========================
+# Train final model on full dataset with best params from last fold
 final_model = XGBRegressor(
     **study.best_params,
     objective="reg:squarederror",
@@ -129,10 +121,7 @@ train_rmse = np.sqrt(mean_squared_error(y_train, y_pred_train))
 print(f"\nTraining MAE: {train_mae:.3f}")
 print(f"Training RMSE: {train_rmse:.3f}")
 
-# =========================
-# 5. Feature importance
-# (feature names seront f0, f1, ... puisque on passe un ndarray)
-# =========================
+# Feature importance
 plt.figure(figsize=(10, 6))
 plot_importance(final_model, importance_type="gain", max_num_features=15)
 plt.title("Top 15 Most Important Features (XGBoost)")

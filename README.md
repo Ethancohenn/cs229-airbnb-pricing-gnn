@@ -11,15 +11,13 @@ Team: Matthieu Hautsch, Ethan Cohen, Haotian (Owen) Cui
 
 ## Repository layout
 ```             
-|- docs/, notebooks/           # proposal, EDA, geospatial HTML map
+|- docs/, notebooks/           # proposal, Final document, Poster, EDA, geospatial HTML map
 |- reports/
 |  |- figures/                 # saved plots/heatmaps from best models
 |- src/
 |  |- data/                    # raw + processed CSVs (train_s1/s2, test_s1/s2, listings.csv, san_francisco_listings_details.csv)
-|  |- features/                # feature builders (placeholders for now)
 |  |- gnn/                     # graph construction + GraphSAGE training/plots
 |  |- models/
-|     |- catboost_info/        # CatBoost training logs from the S1 sweep
 |     |- s1_models/            # tabular baselines on random split
 |     |- s2_models/            # tabular baselines with geocluster-aware CV
 |     |- s3_models/            # tabular + SBERT embedding baselines
